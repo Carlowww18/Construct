@@ -1,0 +1,40 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+          <div class="col-md-6 offset-md-3">
+            <h2 class="text-center text-dark mt-5">Login</h2>
+            <div class="card my-5">
+    
+              <form class="card-body cardbody-color p-lg-5" action="{% url 'login' %}"  method='POST'>{% csrf_token %}
+    
+                <div class="text-center">
+                  <img src="https://www.construtoraresolucao.com.br/wp-content/uploads/2022/01/consultoria-de-engenharia-civil1-1024x683.jpg" class="img-fluid profile-image-pic img-thumbnail rounded-circle my-3"
+                    width="200px" alt="profile">
+                </div>
+    
+                <div class="mb-3">
+                  <input type="text" class="form-control" name="username" id="Username" aria-describedby="emailHelp"
+                    placeholder="User Name">
+                </div>
+                <div class="mb-3">
+                  <input type="password" class="form-control" name="senha" id="password" placeholder="password">
+                </div>
+                <div class="text-center"><button type="submit" class="btn btn-color px-5 mb-5 w-100">Login</button></div>
+              </form>
+            </div>
+    
+          </div>
+        </div>
+      </div>
+</body>
+</html>
