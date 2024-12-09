@@ -4,6 +4,7 @@ class Gerente(AbstractUserRole):
     available_permissions ={
         'cadastrar_produtos': True,
         'liberar_descontos': True,
+        'cadastrar_gerente': True,
         'cadastrar_vendedor': True,
         'cadastrar_cliente': True
     }

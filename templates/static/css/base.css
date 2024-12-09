@@ -436,3 +436,27 @@ h1, .h1 {
         left: 0;
     }
 }
+
+.menu-toggle {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  
+    .dashboard-nav.active {
+      transform: translateX(0); /* Mostra a barra lateral quando ativa */
+    }
+  
+    .content {
+      margin-left: 0; /* Remove o espaço para a barra lateral */
+    }
+  
+    .menu-toggle {
+      display: inline-block; /* Mostra o botão nos dispositivos móveis */
+      cursor: pointer;
+      padding: 10px;
+      color: #fff;
+      background-color: #3498db;
+      border-radius: 5px;
+    }
+  }
