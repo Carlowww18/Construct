@@ -56,6 +56,29 @@ def gerente_delete(request, id):
     messages.add_message(request, messages.SUCCESS, 'Gerente excluído com sucesso')
     return redirect(reverse('gerente'))
 
+@has_permission_decorator('cadastrar_gerente')
+def gerente_update(request, id):
+    gerentes = get_object_or_404(Users, id=id)
+    if request.method == 'GET':
+        if request.user.is_authenticated:
+            return render(request, 'gerente/gerente_update.html', {'gerentes': gerentes})
+        else:
+            return redirect(reverse('login'))
+    elif request.method == 'POST':
+        gerentes.email = request.POST.get('email')
+        gerentes.first_name = request.POST.get('nome')
+        gerentes.last_name = request.POST.get('sobrenome')   
+        gerentes.cpf = request.POST.get('cpf')
+        gerentes.telefone = request.POST.get('telefone')
+        gerentes.data_nascimento = request.POST.get('data_nascimento')
+        gerentes.endereco = request.POST.get('endereco')
+        gerentes.cidade = request.POST.get('cidade')
+        gerentes.estado = request.POST.get('estado')
+        gerentes.save()
+        messages.add_message(request, messages.SUCCESS, 'Dados atualizados com sucesso')
+        return redirect('gerente_update', id=id)  
+    return render(request, 'gerente/gerente_update.html', {'gerentes': gerentes})
+
 def login(request):
     if request.method == 'GET':
         if request.user.is_authenticated:

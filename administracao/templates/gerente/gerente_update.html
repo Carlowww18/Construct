@@ -1,0 +1,110 @@
+{% extends 'base.html' %}
+
+{% block head %}
+    Atualizar dados do Gerente
+{% endblock %}
+
+{% block body %}
+
+{% if messages %}
+<br>
+{% for message in messages  %}
+    <div class="alert {{ message.tags }}">
+        {{message}}
+    </div>
+{% endfor %}
+{% endif %}
+
+<form style='margin-left: 20px; margin: 0;' class="row g-3" method='POST' action="{% url 'gerente_update' gerentes.id %}">{% csrf_token %}
+    <div class='container' style='text-align: center;'>
+        <h1>Atualizar dados do gerente: <b>{{ gerentes.first_name }}</b></h1>
+    </div>
+    <div class="col-md-6">
+      <label for="inputEmail4" class="form-label">Nome</label>
+      <input type="text" name='nome' class="form-control" value="{{ gerentes.first_name }}"  id="inputEmail4">
+    </div>
+    <div class="col-md-6">
+      <label for="inputEmail4" class="form-label">SobreNome</label>
+      <input type="text" name='sobrenome' class="form-control" value="{{ gerentes.last_name}}"  id="inputEmail4">
+    </div>
+    <div class="col-md-6">
+      <label for="inputEmail4" class="form-label">Email</label>
+      <input type="email" name='email' class="form-control" value="{{ gerentes.email }}" id="inputEmail4">
+    </div>
+    <div class="col-md-6">
+      <label for="inputPassword4" class="form-label">Senha</label>
+      <input type="password" name='senha' class="form-control" value=""  id="inputPassword4">
+    </div>
+    <div class="col-6">
+      <label for="inputAddress" class="form-label">Endereço</label>
+      <input type="text" name='endereco' class="form-control" value="{{ gerentes.endereco }}"  id="inputAddress" placeholder="1234 Main St">
+    </div>
+    <div class="col-2">
+      <label for="inputAddress" class="form-label">Data de Nascimento</label>
+      <input type="date" name='data_nascimento' class="form-control" value="{{ gerentes.data_nascimento|date:'Y-m-d' }}"  id="inputAddress" placeholder="1234 Main St">
+    </div>
+    <div class="col-6">
+      <label for="inputAddress2" class="form-label">Telefone</label>
+      <input type="text" name='telefone' class="form-control" value="{{ gerentes.telefone}}"  id="id_telefone" maxlength="15" placeholder="Apartment, studio, or floor">
+    </div>
+    <div class="col-4">
+      <label for="inputAddress2" class="form-label">CPF</label>
+      <input type="text" name='cpf' class="form-control" value="{{ gerentes.cpf}}"  id="id_cpf" maxlength="14" placeholder="Apartment, studio, or floor">
+    </div>
+    <div class="col-md-4">
+      <label for="inputCity" class="form-label">Cidade</label>
+      <input type="text" name='cidade' class="form-control" value="{{ gerentes.cidade }}"  id="inputCity">
+    </div>
+    <div class="col-md-2">
+      <label for="inputZip" class="form-label">Estado</label>
+      <input type="text" name='estado' class="form-control" value="{{ gerentes.estado}}"  id="inputZip">
+    </div>
+    <div class="col-12">
+      <button type="submit" class="btn btn-primary">Atualizar</button>
+    </div>
+</form>
+<script>
+    /* Máscaras CPF */
+    const input = document.getElementById("id_cpf");
+
+    input.addEventListener("keyup", formatarCPF);
+
+    function formatarCPF(e){
+
+    var v=e.target.value.replace(/\D/g,"");
+
+    v=v.replace(/(\d{3})(\d)/,"$1-$2");
+
+    v=v.replace(/(\d{3})(\d)/,"$1-$2");
+
+    v=v.replace(/(\d{3})(\d{1,2})$/,"$1-$2");
+
+    e.target.value = v;
+
+    }
+
+    /* Máscaras TELEFONE */
+    function mascara(o,f){
+        v_obj=o
+        v_fun=f
+        setTimeout("execmascara()",1)
+    }
+    function execmascara(){
+        v_obj.value=v_fun(v_obj.value)
+    }
+    function mtel(v){
+        v=v.replace(/\D/g,""); //Remove tudo o que não é dígito
+        v=v.replace(/^(\d{2})(\d)/g,"($1)$2 "); //Coloca parênteses em volta dos dois primeiros dígitos
+        v=v.replace(/(\d)(\d{4})$/,"$1-$2"); //Coloca hífen entre o quarto e o quinto dígitos
+        return v;
+    }
+    function id( el ){
+        return document.getElementById( el );
+    }
+    window.onload = function(){
+        id('id_telefone').onkeyup = function(){
+            mascara( this, mtel );
+        }
+    }
+</script>
+{% endblock  %}
