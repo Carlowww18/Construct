@@ -34,9 +34,9 @@
                         class="fas fa-users"></i> Users </a>
                     <div class='dashboard-nav-dropdown-menu'>
                         <a href="{% url 'gerente' %}" class="dashboard-nav-dropdown-item">Gerente</a><a
-                            href="#"
+                            href="{% url  'vendedor' %}"
                             class="dashboard-nav-dropdown-item">Vendedor</a><a
-                            href="#" class="dashboard-nav-dropdown-item">Cliente</a>
+                            href="{% url 'clientes' %}" class="dashboard-nav-dropdown-item">Cliente</a>
                 </div>
                 <div class='dashboard-nav-dropdown'><a href="#!" class="dashboard-nav-item dashboard-nav-dropdown-toggle"><i
                         class="fas fa-money-check-alt"></i> Payments </a>
@@ -75,8 +75,6 @@
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
     
-    <!-- Font Awesome -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
     
     <script src="{% static 'js/base.js' %}"></script>
 </body>

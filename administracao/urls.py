@@ -11,4 +11,14 @@ urlpatterns = [
     path('gerente_form/', views.gerente_form, name='gerente_form'),
     path('gerente_delete/<int:id>', views.gerente_delete, name='gerente_delete'),
     path('gerente_update/<int:id>', views.gerente_update, name='gerente_update'),
+
+    #VENDEDOR
+    path('vendedor/', views.vendedor, name='vendedor'),
+    path('vendedor_form/', views.vendedor_form, name='vendedor_form'),
+    path('vendedor_delete/<int:id>', views.vendedor_delete, name='vendedor_delete'),
+    path('vendedor_update/<int:id>', views.vendedor_update, name='vendedor_update'),
+
+    #CLIENTES
+    path('cliente/', views.clientes, name='clientes'),
+    path('cliente_form/', views.cliente_form, name='cliente_form')
 ]

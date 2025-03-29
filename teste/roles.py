@@ -1,7 +1,7 @@
 from rolepermissions.roles import AbstractUserRole
 
 class Gerente(AbstractUserRole):
-    available_permissions ={
+    available_permissions = {
         'cadastrar_produtos': True,
         'liberar_descontos': True,
         'cadastrar_gerente': True,
@@ -9,7 +9,7 @@ class Gerente(AbstractUserRole):
         'cadastrar_cliente': True
     }
 class vendedor(AbstractUserRole):
-    available = {
+    available_permissions = {
         'realizar_venda': True,
-        'cadastrar_cliente': True
+        'cadastrar_cliente': True,
     }
