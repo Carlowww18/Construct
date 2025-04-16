@@ -214,5 +214,41 @@ def cliente_form(request):
         user = Clientes.objects.filter(email=email)
         if user.exists():
             messages.add_message(request, messages.ERROR, 'E-mail já existente')
-
         
+        user = Clientes.objects.create(nome=nome,
+                                       sobrenome=sobrenome,
+                                       data_nascimento=data_nascimento,
+                                       cpf=cpf,
+                                       telefone=telefone,
+                                       endereco=endereco,
+                                       email=email)
+        messages.add_message(request, messages.SUCCESS, 'Cliente cadastrado com sucesso')
+        return render(request, 'cliente/cliente_form.html')
+
+@has_permission_decorator('cadastrar_cliente')
+def cliente_delete(request, id):
+    cliente = get_object_or_404(Clientes, id=id)
+    cliente.delete()
+    messages.add_message(request, messages.SUCCESS, 'Cliente deletado com sucesso!')
+    return redirect(reverse('clientes'))
+
+@has_permission_decorator('cadastrar_cliente')
+def cliente_update(request, id):
+    cliente = get_object_or_404(Clientes, id=id)
+    if request.method == 'GET':
+        if request.user.is_authenticated:
+            return render(request, 'cliente/cliente_update.html', {'clientes': cliente})
+        else:
+            return redirect(reverse('login'))
+    elif request.method == 'POST':
+        cliente.email = request.POST.get('email')
+        cliente.nome = request.POST.get('nome')
+        cliente.sobrenome = request.POST.get('sobrenome')   
+        cliente.cpf = request.POST.get('cpf')
+        cliente.telefone = request.POST.get('telefone')
+        cliente.data_nascimento = request.POST.get('data_nascimento')
+        cliente.endereco = request.POST.get('endereco')
+        cliente.save()
+        messages.add_message(request, messages.SUCCESS, 'Cliente atualizado com sucesso')
+        return redirect('cliente_update', id=id)
+    return render(request, 'cliente/cliente_update.html', {'clientes': cliente})
