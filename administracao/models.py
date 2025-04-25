@@ -42,6 +42,10 @@ class Clientes(models.Model):
     endereco = models.CharField(max_length=80, blank=True)
     email = models.EmailField()
 
+    class Meta:
+        verbose_name = 'Cliente'
+        verbose_name_plural = 'Clientes'
+
     @property
     def idade(self):
         if self.data_nascimento:

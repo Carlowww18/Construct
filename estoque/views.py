@@ -1,4 +1,4 @@
 from django.shortcuts import render
 
 def produtos(request):
-    return ...
+    return render(request, 'produtos/produtos.html')
