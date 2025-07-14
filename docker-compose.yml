@@ -1,0 +1,25 @@
+services:
+  area_admin:
+    build: . 
+    command: sh -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+    restart: always
+    ports:
+      - 8000:8000
+    volumes:
+      - .:/area_admin
+    depends_on:
+      - admin_db
+
+  admin_db:
+    image: postgres:15
+    ports:
+      - 5432:5432
+    volumes:
+      - postgres_data:/data/var/liv/postgresql/data/
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=area_admin
+
+volumes:
+  postgres_data:

@@ -58,14 +58,14 @@ def gerente_form(request):
         messages.add_message(request, messages.SUCCESS, 'Gerente cadastrado com sucesso')
         return render(request, 'gerente/gerente_form.html')
 
-@has_permission_decorator('cadastrar_gerente')   
+@has_permission_decorator('excluir_gerente')   
 def gerente_delete(request, id):
     gerente = get_object_or_404(Users, id=id)
     gerente.delete()
     messages.add_message(request, messages.SUCCESS, 'Gerente excluído com sucesso')
     return redirect(reverse('gerente'))
 
-@has_permission_decorator('cadastrar_gerente')
+@has_permission_decorator('editar_gerente')
 def gerente_update(request, id):
     gerentes = get_object_or_404(Users, id=id)
     if request.method == 'GET':
@@ -98,7 +98,9 @@ def login(request):
         email = request.POST.get('email')
         senha = request.POST.get('senha')
 
-        user = auth.authenticate(username=email, password=senha)
+
+        user = auth.authenticate(request, username=email, password=senha)
+    
 
         if not user:
             return HttpResponse('Usuário inválido')

@@ -1,0 +1,132 @@
+{% extends 'base.html' %}
+{%load static%}
+
+<head>
+    {% block title %}Vendas{% endblock %}
+
+    <link rel="stylesheet" href="{% static 'css/gerente/gerente.css' %}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+{% block body %}
+
+{% if messages %}
+<br>
+{% for message in messages  %}
+    <div class="alert {{ message.tags }}">
+        {{message}}
+    </div>
+{% endfor %}
+{% endif %}
+
+<body class="bg-light p-4">
+    <div class="container card p-4 shadow-sm">
+        <h2 class="mb-4">Nova Venda</h2>
+
+        <form method="POST" action="{% url 'venda_form' %}">
+            {% csrf_token %}
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label>Cliente</label>
+                    <select name="cliente_id" class="form-select" required>
+                        <option value="">-- Selecione o cliente --</option>
+                        {% for cliente in clientes %}
+                            <option value="{{ cliente.id }}">{{ cliente.nome }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <label>Data</label>
+                    <input type="text" class="form-control" value="{{ now|date:'d/m/Y H:i' }}" disabled>
+                </div>
+            </div>
+
+            <hr>
+
+            <h5>Itens da Venda</h5>
+            <table class="table align-middle" id="tabela-produtos">
+                <thead>
+                    <tr>
+                        <th>Produto</th>
+                        <th>Quantidade</th>
+                        <th>Preço Unitário (R$)</th>
+                        <th>Ação</th>
+                    </tr>
+                </thead>
+                <tbody id="produtos-container">
+                    <!-- Linhas dinâmicas aqui -->
+                </tbody>
+            </table>
+
+            <button type="button" class="btn btn-outline-primary" onclick="adicionarLinha()">+ Adicionar Produto</button>
+
+            <div class="mt-4 text-end">
+                <h5>Total: R$ <span id="total-geral">0,00</span></h5>
+            </div>
+
+            <button type="submit" class="btn btn-success mt-3">💾 Salvar Venda</button>
+        </form>
+    </div>
+{{ produtos|json_script:"produtos_json" }}
+<script>
+    let produtos = JSON.parse(document.getElementById('produtos_json').textContent);
+    let contador = 0;
+
+    function adicionarLinha() {
+        const tbody = document.getElementById("produtos-container");
+        const linha = document.createElement("tr");
+        linha.setAttribute("id", `linha-${contador}`);
+
+        linha.innerHTML = `
+            <td>
+                <select name="produto_${contador}" class="form-select" onchange="atualizarPreco(this, ${contador})" required>
+                    <option value="">-- Selecione --</option>
+                    ${produtos.map(p => `<option value="${p.id}" data-preco="${p.preco_venda}">${p.nome}</option>`).join('')}
+                </select>
+            </td>
+            <td>
+                <input type="number" name="quantidade_${contador}" class="form-control" min="1" value="1" onchange="recalcularTotal()" required>
+            </td>
+            <td>
+                <input type="text" name="preco_${contador}" class="form-control" readonly>
+            </td>
+            <td>
+                <button type="button" class="btn btn-sm btn-danger" onclick="removerLinha(${contador})">🗑️</button>
+            </td>
+        `;
+
+        tbody.appendChild(linha);
+        contador++;
+    }
+
+    function atualizarPreco(select, index) {
+        const preco = select.options[select.selectedIndex].dataset.preco;
+        document.getElementsByName(`preco_${index}`)[0].value = parseFloat(preco).toFixed(2);
+        recalcularTotal();
+    }
+
+    function removerLinha(index) {
+        const linha = document.getElementById(`linha-${index}`);
+        linha.remove();
+        recalcularTotal();
+    }
+
+    function recalcularTotal() {
+        let total = 0;
+        for (let i = 0; i < contador; i++) {
+            const linha = document.getElementById(`linha-${i}`);
+            if (linha) {
+                const qtd = parseFloat(document.getElementsByName(`quantidade_${i}`)[0].value || 0);
+                const preco = parseFloat(document.getElementsByName(`preco_${i}`)[0].value || 0);
+                total += qtd * preco;
+            }
+        }
+        document.getElementById("total-geral").innerText = total.toFixed(2).replace('.', ',');
+    }
+</script>
+
+</body>
+
+
+
+{% endblock %}
