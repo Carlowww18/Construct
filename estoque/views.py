@@ -73,14 +73,15 @@ def produtos_delete(request, id):
 def vendas(request):
     produtos = Produtos.objects.all().values('id', 'nome', 'preco_venda')
     clientes = Clientes.objects.all()
-    return render(request, 'vendas.html', {'produtos': list(produtos),
-                                           'clientes': clientes,
-   
-                                           'now': timezone.now()})
+    return render(request, 'vendas/vendas.html', {'produtos': list(produtos),
+                                                  'clientes': clientes,
+                                                  'now': timezone.now()})
+
+@has_permission_decorator('realizar_venda')
 def venda_form(request):
     if request.method == 'GET':
         if request.user.is_authenticated:
-            return render(request, 'vendas.html')
+            return render(request, 'vendas/vendas.html')
         return redirect(reverse('login'))
     if request.method == 'POST':
         cliente = request.POST.get('cliente_id')
@@ -111,3 +112,7 @@ def venda_form(request):
         messages.add_message(request, messages.SUCCESS, 'Venda realizada com sucesso')
 
         return redirect('vendas')
+    
+def listar_vendas(request):
+    vendas = Venda.objects.all()
+    return render(request, 'vendas/listar_vendas.html', {'vendas': vendas})

@@ -45,6 +45,7 @@ class Venda(models.Model):
     vendedor = models.ForeignKey(Vendedor, on_delete=models.SET_NULL, null=True, blank=True)
     data = models.DateTimeField(auto_now_add=True)
     total = models.FloatField(default=0)
+    cancelada = models.BooleanField(default=False)
 
     def __str__(self):
         return f'venda: {self.id} -- {self.data.strftime('%d/%m/%Y')}'

@@ -39,12 +39,18 @@
                             href="{% url 'clientes' %}" class="dashboard-nav-dropdown-item">Cliente</a>
                 </div>
                 <div class='dashboard-nav-dropdown'><a href="#!" class="dashboard-nav-item dashboard-nav-dropdown-toggle"><i
-                        class="fas fa-money-check-alt"></i> Estoque </a>
+                        class="fas fa-money-check-alt"></i> Vendas </a>
                     <div class='dashboard-nav-dropdown-menu'>
-                        <a href="{% url 'produtos' %}"class="dashboard-nav-dropdown-item">Produtos</a>
+                        <a href="{% url 'venda_form' %}"class="dashboard-nav-dropdown-item">Realizar Venda</a>
                     </div>
                     <div class='dashboard-nav-dropdown-menu'>
-                        <a href="{% url 'vendas' %}"class="dashboard-nav-dropdown-item">Vendas</a>
+                        <a href="{% url 'listar_vendas' %}"class="dashboard-nav-dropdown-item">Vendas</a>
+                    </div>
+                </div>
+                <div class='dashboard-nav-dropdown'><a href="#!" class="dashboard-nav-item dashboard-nav-dropdown-toggle"><i
+                        class="fa-sharp-duotone fa-solid fa-boxes-stacked"></i> Estoque </a>
+                    <div class='dashboard-nav-dropdown-menu'>
+                        <a href="{% url 'produtos' %}"class="dashboard-nav-dropdown-item">Produtos</a>
                     </div>
                 </div>
                 <a href="#" class="dashboard-nav-item"><i class="fas fa-cogs"></i> Settings </a><a
