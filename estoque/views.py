@@ -106,13 +106,33 @@ def venda_form(request):
             contador+=1
 
 
-        total = sum(item.quantidade * item.preco_unitario for item in venda.Itens.all())
+        total = sum(item.quantidade * item.preco_unitario for item in venda.itens.all())
         venda.total = total
         venda.save()
         messages.add_message(request, messages.SUCCESS, 'Venda realizada com sucesso')
 
         return redirect('vendas')
-    
+
+@has_permission_decorator('realizar_venda')    
 def listar_vendas(request):
     vendas = Venda.objects.all()
     return render(request, 'vendas/listar_vendas.html', {'vendas': vendas})
+
+@has_permission_decorator('realizar_venda')  
+def detalhe_venda(request, id):
+    venda = get_object_or_404(Venda, id=id)
+    return render(request, 'vendas/detalhe_venda.html', {'venda': venda})
+
+@has_permission_decorator('realizar_venda')  
+def cancelar_venda(request, id):
+    venda = get_object_or_404(Venda, id=id)
+    venda.cancelada = True
+    venda.save()
+    messages.add_message(request, messages.SUCCESS, f'Venda N° {venda.id} cancelada com sucesso')
+
+    if venda.cancelada:
+        for item in venda.itens.all():
+            item.produto.quantidade += item.quantidade
+            item.produto.save()
+
+    return redirect('listar_vendas') 

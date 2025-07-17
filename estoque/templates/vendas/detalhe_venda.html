@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% load static %}
+<head>
+    {% block title %}Detalhe Venda{% endblock %}
+
+    <link rel="stylesheet" href="{% static 'css/gerente/gerente.css' %}">
+</head>
+
+{% block body %}
+
+{% if messages %}
+<br>
+{% for message in messages  %}
+    <div class="alert {{ message.tags }}">
+        {{message}}
+    </div>
+{% endfor %}
+{% endif %}
+
+<div class="container mt-4">
+    <h2>Detalhes da Venda <b>{{ venda.id}}</b></h2>
+    <p><strong>Cliente: {{ venda.cliente }}</strong> </p>
+    <p><strong>CPF: {{ venda.cliente.cpf }}</strong> </p>
+    <p><strong>Data: {{ venda.data|date:"d/m/Y H:i"}}</strong></p>
+    <p><strong>Status:</strong> {% if venda.cancelada %}<span class="text-danger">Cancelada</span>{% else %}Ativa{% endif %}</p>
+
+    <hr>
+
+    <h4>Itens</h4>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Produto</th>
+                <th>Quantidade</th>
+                <th>Preço Unitário</th>
+                <th>Subtotal</th>
+            </tr>
+        </thead>
+        {% for item in venda.itens.all %}
+        <tbody>
+                <tr>
+                    <td>{{ item.produto.nome }}</td>
+                    <td>{{ item.quantidade|floatformat:0 }}</td>
+                    <td>R${{ item.preco_unitario }} </td>
+                    <td>R$ {{ item.subtotal }}</td>
+                </tr>
+            
+        </tbody>
+        {% endfor %}
+    </table>
+    <h5 class="text-end">Total: R${{venda.total }}</h5>
+
+    <a href="{% url 'listar_vendas' %}" class="btn btn-secondary">Voltar</a>
+</div>
+
+
+
+
+
+{% endblock %}

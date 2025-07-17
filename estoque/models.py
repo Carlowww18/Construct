@@ -51,10 +51,13 @@ class Venda(models.Model):
         return f'venda: {self.id} -- {self.data.strftime('%d/%m/%Y')}'
     
 class ItemVenda(models.Model):
-    venda = models.ForeignKey(Venda, on_delete=models.CASCADE, related_name='Itens')
+    venda = models.ForeignKey(Venda, on_delete=models.CASCADE, related_name='itens')
     produto = models.ForeignKey(Produtos, on_delete=models.PROTECT)
     quantidade = models.FloatField()
     preco_unitario = models.FloatField()
+
+    def subtotal(self):
+        return self.quantidade * self.preco_unitario
 
     def __str__(self):
         return f'{self.venda} -- {self.produto}'

@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 <head>
-    {% block title %}Estoque{% endblock %}
+    {% block title %}Vendas{% endblock %}
 
     <link rel="stylesheet" href="{% static 'css/gerente/gerente.css' %}">
 </head>
@@ -37,26 +37,28 @@
                           <th scope="col">Cliente</th>
                           <th scope="col">Vendedor</th>
                           <th scope="col">Data</th>
+                          <th scope="col">Ativo</th>
                           <th scope="col">Total</th>
                           <th scope="col">Visualizar/Cancelar</th>
                         </tr>
                       </thead>
                       <tbody>
-                        {% for venda in vendas %}
+                      {% for venda in vendas %}
                         <tr>
                           <td>Venda: {{venda.id}}</td> 
                           <td>{{venda.cliente}}</td> 
                           <td>{{venda.vendedor}}</td>
-                          <td>{{venda.data}}</td>
+                          <td>{{venda.data|date:"d/m/Y H:i"}}</td>
+                          <td>{% if venda.cancelada %}❌{%else%}✅{% endif %}</td>
                           <td>R${{venda.total}}</td>
                           <td>
-                            <a href="" class="btn btn-danger btn-sm" title="Cancelar" onclick="return confirmarCancelamento();"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-square-fill" viewBox="0 0 16 16">
+                            <a href="{% url 'cancelar_venda' venda.id %}" class="btn btn-danger btn-sm" title="Cancelar" onclick="return confirmarCancelamento();"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-square-fill" viewBox="0 0 16 16">
                               <path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zm3.354 4.646L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 1 1 .708-.708"/>
                             </svg></i></a>
-                            <a href="" class="btn btn-info btn-sm" title="Editar"><i class="fa-solid fa-eye" aria-hidden="true" ></i></a>
+                            <a href="{% url 'detalhe_venda' venda.id %}" class="btn btn-info btn-sm" title="Detalhe_venda"><i class="fa-solid fa-eye" aria-hidden="true" ></i></a>
                           </td>
                         </tr>
-                        {% endfor %}
+                      {% endfor %}
                       </tbody>
                     </table>
                   </div>
