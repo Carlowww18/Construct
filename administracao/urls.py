@@ -1,7 +1,21 @@
-from django.urls import path
+from django.urls import path, include
+from . views import GerenteViewSet, VendedorViewSet, ClienteViewSet
 from . import views
+from rest_framework.routers import DefaultRouter
+
+router = DefaultRouter()
+router.register('gerentes', GerenteViewSet)
+router.register('vendedores', VendedorViewSet)
+router.register('clientes', ClienteViewSet)
+
+
 
 urlpatterns = [
+    #API
+    path('api/v1/', include(router.urls)),
+
+
+    
     path('admin/', views.admin, name='admin'),
     path('login/', views.login, name='login'),
     path('logout/', views.logout, name='logout'),

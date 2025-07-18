@@ -5,11 +5,27 @@ from django.urls import reverse
 from django.contrib import messages, auth
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
+from rest_framework import viewsets
+from . serializers import GerenteSerializer, VendedorSerializer, ClienteSerializer
 
 # TELA INICIAL
 @login_required(login_url='login', redirect_field_name='next')
 def admin(request):
     return render(request, 'base.html')
+
+
+class GerenteViewSet(viewsets.ModelViewSet):
+    queryset = Gerente.objects.all()
+    serializer_class = GerenteSerializer
+
+class VendedorViewSet(viewsets.ModelViewSet):
+    queryset = Vendedor.objects.all()
+    serializer_class = VendedorSerializer
+
+class ClienteViewSet(viewsets.ModelViewSet):
+    queryset = Clientes.objects.all()
+    serializer_class = ClienteSerializer
+
 
 # GERENTES
 def gerente(request):
