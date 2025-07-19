@@ -5,6 +5,13 @@ from . models import Produtos, Categoria, Venda, ItemVenda
 from administracao.models import Clientes
 from django.contrib import messages
 from rolepermissions.decorators import has_permission_decorator
+from rest_framework import viewsets
+from . serializers import ProdutoSerializer
+
+
+class ProdutoViewSet(viewsets.ModelViewSet):
+    queryset = Produtos.objects.all()
+    serializer_class = ProdutoSerializer
 
 def produtos(request):
     produtos = Produtos.objects.all()
@@ -86,7 +93,11 @@ def venda_form(request):
     if request.method == 'POST':
         cliente = request.POST.get('cliente_id')
 
-        venda = Venda.objects.create(cliente_id=cliente, vendedor=request.user.vendedor)
+        if request.user.cargo == 'V':
+            venda = Venda.objects.create(cliente_id=cliente, vendedor=request.user.vendedor)
+        else:
+            messages.add_message(request, messages.WARNING, 'Somente vendedores podem completar a venda')
+            return redirect('vendas')
 
         contador = 0
         while True:
