@@ -6,12 +6,20 @@ from administracao.models import Clientes
 from django.contrib import messages
 from rolepermissions.decorators import has_permission_decorator
 from rest_framework import viewsets
-from . serializers import ProdutoSerializer
+from . serializers import ProdutoSerializer, VendaSerializer, ItemVendaSerializer
 
 
 class ProdutoViewSet(viewsets.ModelViewSet):
     queryset = Produtos.objects.all()
     serializer_class = ProdutoSerializer
+
+class VendaViewSet(viewsets.ModelViewSet):
+    queryset = Venda.objects.all()
+    serializer_class = VendaSerializer
+
+class ItemVendaViewSet(viewsets.ModelViewSet):
+    queryset = ItemVenda.objects.all()
+    serializer_class = ItemVendaSerializer
 
 def produtos(request):
     produtos = Produtos.objects.all()
