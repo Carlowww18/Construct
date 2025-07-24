@@ -7,19 +7,23 @@ from django.contrib import messages
 from rolepermissions.decorators import has_permission_decorator
 from rest_framework import viewsets
 from . serializers import ProdutoSerializer, VendaSerializer, ItemVendaSerializer
+from rest_framework.permissions import IsAdminUser
 
 
 class ProdutoViewSet(viewsets.ModelViewSet):
     queryset = Produtos.objects.all()
     serializer_class = ProdutoSerializer
+    permission_classes = [IsAdminUser]
 
 class VendaViewSet(viewsets.ModelViewSet):
     queryset = Venda.objects.all()
     serializer_class = VendaSerializer
+    permission_classes = [IsAdminUser]
 
 class ItemVendaViewSet(viewsets.ModelViewSet):
     queryset = ItemVenda.objects.all()
     serializer_class = ItemVendaSerializer
+    permission_classes = [IsAdminUser]
 
 def produtos(request):
     produtos = Produtos.objects.all()

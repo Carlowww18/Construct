@@ -38,6 +38,9 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    'authentication',
+    'rest_framework',
+    'rest_framework_simplejwt',
     'administracao',
     'rolepermissions',
     'estoque',
@@ -139,6 +142,11 @@ ROLEPERMISSIONS_MODULE = 'teste.roles'
 #Config auth
 AUTH_USER_MODEL = 'administracao.Users'
 
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    )
+}
 
 MESSAGE_TAGS = {
     constants.DEBUG: 'alert-primary',

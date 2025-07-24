@@ -7,6 +7,7 @@ from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from rest_framework import viewsets
 from . serializers import GerenteSerializer, VendedorSerializer, ClienteSerializer
+from rest_framework.permissions import IsAdminUser
 
 # TELA INICIAL
 @login_required(login_url='login', redirect_field_name='next')
@@ -17,14 +18,17 @@ def admin(request):
 class GerenteViewSet(viewsets.ModelViewSet):
     queryset = Gerente.objects.all()
     serializer_class = GerenteSerializer
+    permission_classes = [IsAdminUser]
 
 class VendedorViewSet(viewsets.ModelViewSet):
     queryset = Vendedor.objects.all()
     serializer_class = VendedorSerializer
+    permission_classes = [IsAdminUser]
 
 class ClienteViewSet(viewsets.ModelViewSet):
     queryset = Clientes.objects.all()
     serializer_class = ClienteSerializer
+    permission_classes = [IsAdminUser]
 
 
 # GERENTES
