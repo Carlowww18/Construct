@@ -110,7 +110,6 @@ def venda_form(request):
         else:
             messages.add_message(request, messages.WARNING, 'Somente vendedores podem completar a venda')
             return redirect('vendas')
-
         contador = 0
         while True:
             produto = request.POST.get(f'produto_{contador}')
